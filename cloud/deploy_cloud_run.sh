@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-sudo -euo pipefall
+set -euo pipefall
 
 PROJECT_ID='a2a-project-493019'
 REGION='us-central1'
