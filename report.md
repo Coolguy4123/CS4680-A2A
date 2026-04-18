@@ -1,6 +1,7 @@
 # CS 4680 - A2A Assignment (Freeman Yiu)
 
-### Questions
+## Questions
+### Section 3
 1. Why does the request use a client-generated id rather than a server-generated one? What problem does this solve in distributed systems?
 
 A client-generated id can be cached to reduce duplicate tasks. In distributed systems, retries often happens because of load balancer and timeouts. Therefore, client-generated id allows the system to recognize previous retries
@@ -17,10 +18,16 @@ The sessionId field is used to group related tasks for continous conversation, i
 
 A realistic example would be: User sends text instructions and URL for a document. Agent A parses the file and turns info into data. Agent B uses those data and previous text instructions to return a detailed summary
 
-5. What does the --allow-unautheticated flag does and its security implications
+#### Section 4
+1. What does the --allow-unautheticated flag does and its security implications
 
 The flag allows the Cloud Run server to run the server publicly without authentication, which means anyone with URL the access. Oberall, this is a dangerous in cloud computing as hackers can esily breach through
 
-6. How Cloud Run scales to zero and what cold start latency means for A2A clients
+2. How Cloud Run scales to zero and what cold start latency means for A2A clients
 
-Cloud run can scale to 0 byy shutting down all existing instance. For A2A agents, cold start latency refers to the time for the first request after a fresh start, which is slower than normal requests
+Cloud run can scale to 0 by shutting down all existing instance. For A2A agents, cold start latency refers to the time for the first request after a fresh start, which is slower than normal requests
+
+### Section 5
+1. Explain the difference between deploying to Cloud Run vs Agent Engine in terms of operational burden and use-case fit.
+
+2. Why the wrapper class uses a synchronous query() method even though the underlying handler is async?
