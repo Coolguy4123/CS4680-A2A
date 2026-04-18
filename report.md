@@ -30,4 +30,32 @@ Cloud run can scale to 0 by shutting down all existing instance. For A2A agents,
 ### Section 5
 1. Explain the difference between deploying to Cloud Run vs Agent Engine in terms of operational burden and use-case fit.
 
+Cloud run is a full-on hosting service, while Agent Engine is more specialized for hosting agents in Python. In terms of operational burden, Cloud Run gives more control over the infrasture as it is related to fullstack applications. However, Agent Engine has better convenience for deploying agents. 
+
+
 2. Why the wrapper class uses a synchronous query() method even though the underlying handler is async?
+
+The synchronous query() is needed because the Agent Engine requires it before deploying the agent. Therefore, it allows components to be reused efficiently for the handler.
+
+### Section 6
+
+Log Output: 
+
+
+GET https://echo-a2a-agent-dl52rreheq-uc.a.run.app/.well-known/agent.json
+RESPONSE 200 {'id': 'echo-agent-v1', 'name': 'Echo Agent', 'version': '1.0.0', 'description': 'A simple agent that echoes back any text it receives.', 'url': 'http://localhost:8000', 'contact': {'email': 'fyiu@cpp.edu'}, 'capabilities': {'streaming': False, 'pushNotifications': False}, 'defaultInputModes': ['text/plain'], 'defaultOutputModes': ['text/plain'], 'skills': [{'id': 'echo', 'name': 'Echo', 'description': 'Returns the user message verbatim.', 'inputModes': ['text/plain'], 'outputModes': ['text/plain']}, {'id': 'summarize', 'name': 'Summarize', 'description': 'Summarize the user message verbatim.', 'inputModes': ['text/plain'], 'outputModes': ['text/plain']}]}
+Agent: Echo Agent
+Skills:
+* Echo
+* Summarize
+POST https://echo-a2a-agent-dl52rreheq-uc.a.run.app/tasks/send
+PAYLOAD {'id': '66ed91bb-8c8e-4f68-987a-5bbff4834da3', 'sessionId': None, 'message': {'role': 'user', 'parts': [{'type': 'text', 'text': 'Hello from the client!'}]}}
+RESPONSE 200 {'id': '66ed91bb-8c8e-4f68-987a-5bbff4834da3', 'status': {'state': 'completed'}, 'artifacts': [{'parts': [{'type': 'text', 'text': 'Hello from the client!'}]}]}
+Echoed response: Hello from the client!
+
+UML Diagram: 
+
+
+1. If a client loses the network connection after sending the POST but before receiving the response, how could it safely retry? What field in the A2A protocol helps with idempotency?
+
+It could safely retry by using the same task ID as it is already recognized by the system. Similar to caching, this approach eliminates duplicate steps, allowing faster run time. The field that helps with idempotency is the generated client ID
