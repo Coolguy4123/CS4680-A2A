@@ -14,9 +14,11 @@ class A2AClient:
         """Fetch and cache the Agent Card."""
         if self._card is None:
             url = f'{self.agent_url}/.well-known/agent.json'
+            print(f'GET {url}')
             resp = self._http.get(url)
             resp.raise_for_status()
             self._card = resp.json()
+            print(f'RESPONSE {resp.status_code} {str(self._card)}')
         return self._card
     
     # ── 2. Request Construction ──────────────────────────────────────
@@ -39,9 +41,12 @@ class A2AClient:
         self.fetch_agent_card() # ensure card is cached
         payload = self._build_task(text, **kwargs)
         url = f'{self.agent_url}/tasks/send'
+        print(f'POST {url}')
+        print(f'PAYLOAD {str(payload)}')
         resp = self._http.post(url, json=payload)
         resp.raise_for_status()
         data = resp.json()
+        print(f'RESPONSE {resp.status_code} {str(data)}')
         state = data.get('status', {}).get('state')
         if state != 'completed':
             raise RuntimeError(f"Task did not complete successfully; status.state={state!r}")
