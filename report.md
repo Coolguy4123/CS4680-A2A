@@ -1,6 +1,9 @@
 # CS 4680 - A2A Assignment (Freeman Yiu)
 
 ## Questions
+
+---
+
 ### Section 3
 1. Why does the request use a client-generated id rather than a server-generated one? What problem does this solve in distributed systems?
 
@@ -18,7 +21,9 @@ The sessionId field is used to group related tasks for continous conversation, i
 
 A realistic example would be: User sends text instructions and URL for a document. Agent A parses the file and turns info into data. Agent B uses those data and previous text instructions to return a detailed summary
 
-#### Section 4
+---
+
+### Section 4
 1. What does the --allow-unautheticated flag does and its security implications
 
 The flag allows the Cloud Run server to run the server publicly without authentication, which means anyone with URL the access. Oberall, this is a dangerous in cloud computing as hackers can esily breach through
@@ -26,6 +31,8 @@ The flag allows the Cloud Run server to run the server publicly without authenti
 2. How Cloud Run scales to zero and what cold start latency means for A2A clients
 
 Cloud run can scale to 0 by shutting down all existing instance. For A2A agents, cold start latency refers to the time for the first request after a fresh start, which is slower than normal requests
+
+---
 
 ### Section 5
 1. Explain the difference between deploying to Cloud Run vs Agent Engine in terms of operational burden and use-case fit.
@@ -37,6 +44,8 @@ Cloud run is a full-on hosting service, while Agent Engine is more specialized f
 
 The synchronous query() is needed because the Agent Engine requires it before deploying the agent. Therefore, it allows components to be reused efficiently for the handler.
 
+---
+
 ### Section 6
 
 Log Output: 
@@ -45,16 +54,18 @@ Log Output:
 GET https://echo-a2a-agent-dl52rreheq-uc.a.run.app/.well-known/agent.json
 RESPONSE 200 {'id': 'echo-agent-v1', 'name': 'Echo Agent', 'version': '1.0.0', 'description': 'A simple agent that echoes back any text it receives.', 'url': 'http://localhost:8000', 'contact': {'email': 'fyiu@cpp.edu'}, 'capabilities': {'streaming': False, 'pushNotifications': False}, 'defaultInputModes': ['text/plain'], 'defaultOutputModes': ['text/plain'], 'skills': [{'id': 'echo', 'name': 'Echo', 'description': 'Returns the user message verbatim.', 'inputModes': ['text/plain'], 'outputModes': ['text/plain']}, {'id': 'summarize', 'name': 'Summarize', 'description': 'Summarize the user message verbatim.', 'inputModes': ['text/plain'], 'outputModes': ['text/plain']}]}
 Agent: Echo Agent
+
 Skills:
-* Echo
-* Summarize
+- Echo
+- Summarize
+  
 POST https://echo-a2a-agent-dl52rreheq-uc.a.run.app/tasks/send
 PAYLOAD {'id': '66ed91bb-8c8e-4f68-987a-5bbff4834da3', 'sessionId': None, 'message': {'role': 'user', 'parts': [{'type': 'text', 'text': 'Hello from the client!'}]}}
 RESPONSE 200 {'id': '66ed91bb-8c8e-4f68-987a-5bbff4834da3', 'status': {'state': 'completed'}, 'artifacts': [{'parts': [{'type': 'text', 'text': 'Hello from the client!'}]}]}
 Echoed response: Hello from the client!
 
 UML Diagram: 
-
+<img width="600" height="500" alt="image" src="https://github.com/user-attachments/assets/74f694f5-b09e-47d5-8033-0e5294ca27e5" />
 
 1. If a client loses the network connection after sending the POST but before receiving the response, how could it safely retry? What field in the A2A protocol helps with idempotency?
 
