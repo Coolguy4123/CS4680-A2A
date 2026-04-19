@@ -70,3 +70,15 @@ UML Diagram:
 1. If a client loses the network connection after sending the POST but before receiving the response, how could it safely retry? What field in the A2A protocol helps with idempotency?
 
 It could safely retry by using the same task ID as it is already recognized by the system. Similar to caching, this approach eliminates duplicate steps, allowing faster run time. The field that helps with idempotency is the generated client ID
+
+---
+
+### Section 7
+1. How do you add authentication between agents using service account tokens
+
+To add authentication between agents, the system should utilize OAuth 2.0 token attached to the http request, this allows the agents to prove the identity of each other.
+
+
+2. What changes to the A2A shcema would be needed to pass a sessionID across the chain
+
+Since the sessionID field already exists, the best approach would be passing the same sessionID to the next agent, ensuring that the workflow reuses the same sessionID. 
