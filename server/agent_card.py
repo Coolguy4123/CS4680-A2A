@@ -3,7 +3,7 @@ AGENT_CARD = {
     "name": "Echo Agent",
     "version": "1.0.0",
     "description": "A simple agent that echoes back any text it receives.",
-    "url": "http://localhost:8000", # updated at deploy time
+    "url": "http://localhost:8000", 
     "contact": {
         "email": "fyiu@cpp.edu",
     },
@@ -31,7 +31,7 @@ AGENT_CARD = {
     ]
 }
 
-# Method that checks all required fields are present
+
 def validate_card(card: dict) -> bool:
     main_fields = (
         "id",

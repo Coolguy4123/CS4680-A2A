@@ -1,15 +1,16 @@
 # cloud/deploy_agent_engine.py
+import os
+import sys
+
 import vertexai
 from vertexai.preview import reasoning_engines
-import sys, os
 
 PROJECT_ID = 'a2a-project-493019'
 REGION = 'us-central1'
 STAGING = f'gs://{PROJECT_ID}-a2a-staging'
 
 # Add server/ to path so imports resolve
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..',
-'server'))
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'server'))
 from agent_engine_wrapper import EchoAgent
 
 vertexai.init(project=PROJECT_ID, location=REGION)

@@ -6,5 +6,5 @@ async def handle_task(request) -> str:
     words = combined.split()
     if words and words[0] == '!summarise':
         return 'A mock summary of the provided text'
-    
+
     return combined
